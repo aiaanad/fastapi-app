@@ -1,0 +1,29 @@
+from typing import List
+
+from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
+
+from ..repositories.category_repository import CategoryRepository
+from ..schemas.category import CategoryResponse, CategoryCreate
+
+
+class CategoryService:
+    def __init__(self, db: Session):
+        self.repository = CategoryRepository(db)
+
+    def get_all_categories(self) -> List[CategoryResponse]:
+        categories = self.repository.get_all()
+        return [CategoryResponse.model_validate(category) for category in categories]
+
+    def category_by_id(self, categoty_id: int) -> CategoryResponse | None:
+        category = self.repository.get_by_id(categoty_id)
+        if not category:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Category with id {categoty_id} not found"
+            )
+        return CategoryResponse.model_validate(category)
+
+    def create_category(self, category_data: CategoryCreate) -> CategoryResponse | None:
+        category = self.repository.create(category_data)
+        return CategoryResponse.model_validate(category)
