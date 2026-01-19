@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
-from ..databases import Base
+from ..database import Base
 
 
 class Product(Base):
