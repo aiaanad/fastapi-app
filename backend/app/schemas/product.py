@@ -18,14 +18,14 @@ class ProductCreate(ProductBase):
 
 class ProductResponse(BaseModel):
     id: int = Field(..., description="Unique product identifier")
-    description = str | None
+    description: str | None
     price: float
     category_id: int
     created_at: datetime
     category: CategoryResponse = Field(..., description="Product category details")
 
     class Config:
-        form_attributes = True
+        from_attributes = True
 
 
 class ProductListResponse(BaseModel):

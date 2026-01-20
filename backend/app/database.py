@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import settings
+from .config import settings
 
 engine = create_engine(
     url=settings.database_url,
@@ -28,6 +28,5 @@ def get_db():
         db.close
 
 
-def get_init_db():
-    global Base, engine
+def init_db():
     Base.metadata.create_all(bind=engine)
